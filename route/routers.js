@@ -31,12 +31,10 @@ router.post('/signin' , async(req, res)=>{
         const password = req.body.password;
         const checkdata = await register.findOne({ email : email });
         if(checkdata){
-            
             if(checkdata.password == password ){
             res.send({succes : " sign in Success"})}
-            else{
-                res.send({"Invalid" : "plz register first"})
-            }
+        }else{
+            res.status(400)
         }
         
     } catch (error) {
@@ -56,15 +54,41 @@ router.post('/savenote', (req , res)=>{
      res.send({success : "New note added to database"})
 })
 
-router.delete('/notes/id' , async(req, res)=>{
+router.delete('/notes/id' , (req, res)=>{
     let id = req.body.id;
-    savenote.findByIdAndDelete({id})
-    if(req.body.id == savenote.id){
-       await res.send({success :"id deleted "})
-    }else{
-        res.send({error :"Note not deleted "})
+    savenote.findByIdAndRemove({_id : id})
+    .then(()=>{
+        res.json({
+            message : "id deleted Successfully"
+        })
+    }).catch(error =>{
+        res.json({
+            message : error
+        })
+        res.status(400)
+    })
+})
 
+router.patch("/notes/id" , (req, res)=>{
+    let id = req.body.id;
+    let updatedData= {
+        title: req.body.title,
+        description: req.body.description,
+        time : new Date().toGMTString()
+        
     }
+
+    savenote.findByIdAndUpdate(id , updatedData)
+    .then(()=>{
+        res.json({
+            message : "Data updated Successfully"
+        })
+    }).catch(error =>{
+        res.json({
+            message : error
+        })
+        res.status(400)
+    })
 })
 
 
