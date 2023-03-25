@@ -1,4 +1,5 @@
 const express = require('express');
+const { Error } = require('mongoose');
 const savenote = require('../models/addnote');
 const register = require('../models/user');
 const router = express.Router();
@@ -33,12 +34,18 @@ router.post('/signin' , async(req, res)=>{
         if(checkdata){
             if(checkdata.password == password ){
             res.send({succes : " sign in Success"})}
+            else{
+                res.status(400)
+                res.send({error : "password or email is wrong"})
+            }
         }else{
             res.status(400)
+            res.send({error : "password or email is wrong"})
         }
         
     } catch (error) {
-        res.send({error})
+        res.status(400)
+        res.send({error : "Invalid data entered"})
     }
 })
 
