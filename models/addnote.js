@@ -4,10 +4,10 @@ const mongoose = require('mongoose');
 
 
 const NewNote = mongoose.Schema({
-    title : String,
-    description : String,
-    time : String
+    name : String,
+    country : String,
+    type : String
 }) 
 
-const savenote = mongoose.model('allnotes', NewNote)
+const savenote = mongoose.model('carsdata', NewNote)
 module.exports= savenote;

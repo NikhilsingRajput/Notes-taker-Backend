@@ -23,7 +23,6 @@ router.get('/', (req, res)=>{
         response
     })
    })
-   
 })
 
 router.post('/signin' , async(req, res)=>{
@@ -51,9 +50,9 @@ router.post('/signin' , async(req, res)=>{
 
 router.post('/savenote', (req , res)=>{
     const newnote = new savenote({
-        title : req.body.title,
-        description : req.body.description,
-        time : new Date().toGMTString()
+        name : req.body.name,
+        country : req.body.country,
+        type : req.body.type
     });
     
      newnote.save();
